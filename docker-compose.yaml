@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:17.2-alpine3.20
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-menu}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin123}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - compose.env
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DSN: "host=db user=${POSTGRES_USER:-postgres} password=${POSTGRES_PASSWORD:-admin123} dbname=${POSTGRES_DB:-menu} port=5432 sslmode=disable TimeZone=Europe/Berlin"
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+volumes:
+  pgdata:
