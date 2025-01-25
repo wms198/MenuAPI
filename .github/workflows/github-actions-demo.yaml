@@ -14,4 +14,4 @@ jobs:
       - name: build docker image
         run: docker build -t msw198/gomenuapi .
       - name: push docker image on dockerhub
-        run: docker push msw198/gomenuapi .
+        run: docker push msw198/gomenuapi 
