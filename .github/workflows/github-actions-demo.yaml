@@ -11,3 +11,5 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: go test -v ./...
+      - name: build docker image
+        run: docker build -t msw198/gomenuapi .
