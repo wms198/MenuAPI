@@ -4,8 +4,10 @@ on: [push]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
-    steps: 
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - run: go test -v ${{ github.workspace }}/...
+      - run: go test -v /...
