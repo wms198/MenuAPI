@@ -4,5 +4,8 @@ on: [push]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
-    steps:
-      - run: go test -v ./...
+    steps: 
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: go test -v ${{ github.workspace }}/...
